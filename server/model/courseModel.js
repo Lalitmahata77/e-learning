@@ -22,8 +22,8 @@ const linkSchema = new mongoose.Schema({
 const commentSchema = new mongoose.Schema({
     user : Object,
    
-    comment : String,
-    commentReplies : [{
+    question : String,
+    questionReplies : [{
         type : Object,
         
     }]
@@ -85,6 +85,10 @@ const courseSchema = new mongoose.Schema({
     purchesed : {
         type : String,
         default : 0
+    },
+    user : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "User"
     }
 
 },{timestamps : true})
