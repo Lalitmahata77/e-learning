@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <dir class="container">
+        <div class="message-sm">
+            <h1>Your Elearning order is confirmed</h1>
+            <p>And we're just as excited as you are</p>
+        </div>
+        <br>
+        <br>
+        <div class="course-info">
+            <h4>Here's what you ordered:</h4>
+            <table style="border-bottom: 1px solid #0000002f;">
+                <tr>
+                    <td>order # : <%= order._id %></td>
+                    <td>
+                        order Date : <%= order.date %>
+                    </td>
+                </tr>
+            </table>
+            <table style="width: 90%; margin: auto; display: block;">
+                <tr>
+                    <td>Item</td>
+                    <td>Oty</td>
+                    <td>cost</td>
+                   
+                </tr>
+            </table>
+        </div>
+    </dir>
+</body>
+</html>

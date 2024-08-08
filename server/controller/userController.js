@@ -119,7 +119,16 @@ export const updatePassword = catchAsycnErroe(async(req,res,next)=>{
     export const updateUser = catchAsycnErroe(async(req,res,next)=>{
         const newUser = {
             name : req.body.name,
-            email : req.body.email
+            email : req.body.email,
+            
+        }
+        const user = await User.findByIdAndUpdate(req?.user?._id, newUser, {new : true})
+        res.status(200).json({user})
+    })
+    export const updateUserRole = catchAsycnErroe(async(req,res,next)=>{
+        const newUser = {
+            role : req.body.role,
+           id : req.params.id
         }
         const user = await User.findByIdAndUpdate(req?.user?._id, newUser, {new : true})
         res.status(200).json({user})
@@ -140,4 +149,17 @@ export const updatePassword = catchAsycnErroe(async(req,res,next)=>{
          res.status(200).json({
            user
          })
+       })
+
+       export const deleteUser = catchAsycnErroe(async(req,res,next)=>{
+        const {id} = req.params
+        const user = await User.findById(req.params.id)
+        if (!user) {
+            return next(new ErrorHandler("user not found with that id",400))
+        }
+        await user.deleteOne({id})
+        res.status(200).json({
+            success : true,
+           
+          })
        })

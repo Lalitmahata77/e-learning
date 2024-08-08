@@ -3,6 +3,7 @@ import catchAsycnErroe from "../middleware/catchAsycnErroe.js";
 import Course from "../model/courseModel.js";
 import { delete_file, upload_file } from "../utils/cloudnary.js";
 import ErrorHandler from "../utils/errorHandler.js";
+import Notification from "../model/notifikationModel.js";
 
 export const uploadCourse = catchAsycnErroe(async(req,res,next)=>{
    try {
@@ -119,6 +120,11 @@ export const addQuestions = catchAsycnErroe(async(req,res,next)=>{
     questionReplies : []
   }
   courseContent.question.push(newQuestion)
+  await Notification.create({
+    user : req.user?._id,
+    title : "New question",
+    message : `You have a new questions in ${courseContent.title}`
+  })
   await course?.save()
   res.status(200).json({
     success : true,
@@ -154,7 +160,11 @@ export const addAnswer = catchAsycnErroe(async(req,res,next)=>{
   await course?.save()
 
   if (req.user._id === question.user._id) {
-    
+    await Notification.create({
+      user : req.user?._id,
+      title : "New question",
+      message : `You have a new questions in ${courseContent.title}`
+    })
   }else{
     const data = {
       name : question.user.name,
@@ -217,3 +227,16 @@ res.status(200).json({
   course
 })
 })
+export const deleteCourse = catchAsycnErroe(async(req,res,next)=>{
+  const {id} = req.params
+  const course = await Course.findById(req.params.id)
+  if (!course) {
+      return next(new ErrorHandler("user not found with that id",400))
+  }
+  await course.deleteOne({id})
+  res.status(200).json({
+      success : true,
+      message : "course deleted successfully"
+     
+    })
+ })
