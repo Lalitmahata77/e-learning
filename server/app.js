@@ -13,10 +13,11 @@ import courseRoute from "./route/courseRoute.js"
 import orderRoute from "./route/orderRoute.js"
 import notificationRoute from "./route/notificationRoute.js"
 import analytics from "./route/analyticsRoute.js"
+import layoutRoute from "./route/layoutRoute.js"
 app.use("/api/v2/", authRoute)
 app.use("/api/v2/", courseRoute)
 app.use("/api/v2",orderRoute)
-app.use("/api/v2",notificationRoute,analytics)
+app.use("/api/v2",notificationRoute,analytics,layoutRoute)
 app.listen(PORT, ()=>{
     connectMongoDb()
     console.log(`server is listening on port ${PORT}`);
