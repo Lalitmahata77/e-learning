@@ -8,16 +8,17 @@ type Props = {
     setRoute : (route : string)=>void
 }
 const schema = Yup.object().shape({
+    name: Yup.string().required("please enter your name"),
     email : Yup.string().email("Invalid email").required("Please enter your email"),
     password : Yup.string().required("Please enter your password").min(6)
 })
 const Login:FC<Props> = ({setRoute}) => {
     const [show, setShow] = useState(false)
     const formik = useFormik({
-        initialValues : {email:"", password : ""},
+        initialValues : {name:"",email:"", password : ""},
         validationSchema : schema,
-        onSubmit : async({email,password})=>{
-            console.log(email,password);
+        onSubmit : async({name,email,password})=>{
+           setRoute("Verification")
             
         }
     })
@@ -25,9 +26,24 @@ const Login:FC<Props> = ({setRoute}) => {
   return (
     <div className='w-full'>
         <h1 className={`${Style.title}`}>
-            Login with E-Learning
+            Join with E-Learning
         </h1>
         <form onSubmit={handleSubmit}>
+       <div className='mb-4'>
+       <label htmlFor="name" className={`${Style.label}`}>
+                Enter your Name
+            </label><br />
+            <input type="text"
+            name=''
+            value={values.name}
+            onChange={handleChange}
+            id='name'
+            placeholder='Lalit..'
+            className={`${errors.name && touched.name && "border-red-500"}${Style.input}`} />
+            {errors.name && touched.name && (
+                <span className='text-red-500 pt-2 block'>{errors.name}</span>
+            )}
+       </div>
             <label htmlFor="email" className={`${Style.label}`}>
                 Enter your Email 
             </label><br />
@@ -54,6 +70,9 @@ const Login:FC<Props> = ({setRoute}) => {
                 className={`${errors.password && touched.password && "border-red-500"}${Style.input}`}
 
                  />
+                  {errors.password && touched.password && (
+                <span className='text-red-500 pt-2 block'>{errors.password}</span>
+            )}
                  
                   { !show ? (
                         <AiOutlineEyeInvisible 
@@ -73,7 +92,7 @@ const Login:FC<Props> = ({setRoute}) => {
             </div>
             <div className='w-full mt-5'>
                 <input type="submit"
-                value="Login"
+                value="Sign-Up"
                  className={`${Style.button}`}/>
 
             </div>
@@ -84,10 +103,10 @@ const Login:FC<Props> = ({setRoute}) => {
 <AiFillGithub size={30} className='cursor-pointer ml-2'/>
             </div>
             <h5 className=' dark:text-white text-center pt-4 font-Poppins text-[14px]'>
-                Not have any account?{" "}
+                Already have an account?{" "}
                 <span className='text-[#2190ff] pl-1 cursor-pointer'
-                onClick={()=>setRoute("Sign-Up")}>
-                    Sign up
+                onClick={()=>setRoute("Login")}>
+                    Sign in
                 </span>
             </h5>
         </form>
